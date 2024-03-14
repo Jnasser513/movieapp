@@ -1,0 +1,101 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.jnasser.movieapp"
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation activityLib
+
+    implementation fragmentLib
+
+    implementation dotsIndicatorLib
+
+    implementation daggerLib
+    kapt daggerCompiler
+    annotationProcessor daggerAnnotation
+    implementation hiltLib
+    kapt hiltCompiler
+
+    implementation viewmodelLib
+    implementation livedataLib
+    implementation lifecycleLib
+
+    implementation roomRuntime
+    implementation legacyLib
+    kapt roomCompiler
+    implementation roomLib
+
+    implementation coroutinesLib
+    testImplementation coroutinesTestLib
+    testImplementation coreTestLib
+    testImplementation mockkLib
+
+    implementation navigationLib
+    implementation navigationUILib
+
+    implementation retrofitLib
+    implementation retrofitConverterLib
+    implementation okHttpLib
+    implementation gsonLib
+    implementation interceptorLib
+
+    implementation glideLib
+    annotationProcessor glideCompiler
+
+    implementation mapsLib
+
+    implementation paggingLib
+    implementation paggingKtx
+    //implementation paggingRuntime
+
+    testImplementation jUnitLib
+    testImplementation mockitoLib
+    testImplementation mockitoInlineLib
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

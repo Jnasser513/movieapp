@@ -1,0 +1,128 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        //SDK and Tools
+        minSdkVersion = 21
+        targetSdkVersion = 33
+        compileSdkVersion = 33
+        versionCode = 102
+        versionName = "1.0.2"
+
+        //Versions
+        daggerVersion = '2.40.2'
+        glideVersion = '4.12.0'
+        activityVersion = '1.6.1'
+        fragmentVersion = '1.5.5'
+        dotsIndicatorVersion = '4.3'
+        hiltLifecycleVersion = '1.0.0-alpha03'
+        lifecycleVersion = '2.5.1'
+        roomVersion = '2.4.2'
+        fcmVersion = '22.0.0'
+        paggingVersion = '3.1.1'
+        coroutinesVersion = '1.6.4'
+        navigationVersion = '2.5.3'
+        retrofitVersion = '2.9.0'
+        okhttpVersion = '4.7.2'
+        gsonVersion = '2.9.0'
+        kotlinVersion = '1.3.72'
+        firebaseBomVersion = '31.2.2'
+        mockitoVersion = '1.9.3'
+        coreTestingVersion = '1.1.1'
+        jUnitVersion = '2.8.6'
+        mockitoKotlinInlineVersion = '3.3.3'
+        mockitoKotlinVersion = '2.2.0'
+        coroutinesTestVersion = '1.4.2'
+        coreTestingVersion = '2.1.0'
+        mockVersion = '1.12.2'
+        gmsVersion = '17.0.1'
+
+        //Activity
+        activityLib = "androidx.activity:activity-ktx:$activityVersion"
+        //Fragment
+        fragmentLib = "androidx.fragment:fragment-ktx:$fragmentVersion"
+
+        //indicator
+        dotsIndicatorLib = "com.tbuonomo:dotsindicator:$dotsIndicatorVersion"
+
+        //Dagger
+        daggerLib = "com.google.dagger:hilt-android:$daggerVersion"
+        daggerCompiler = "com.google.dagger:hilt-android-compiler:$daggerVersion"
+        daggerAnnotation = "com.google.dagger:hilt-compiler:$daggerVersion"
+        hiltLib = "androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifecycleVersion"
+        hiltCompiler = "androidx.hilt:hilt-compiler:$hiltLifecycleVersion"
+
+        // ViewModel
+        viewmodelLib = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+        // LiveData
+        livedataLib = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+        // Lifecycles only (without ViewModel or LiveData)
+        lifecycleLib = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+        //Room
+        roomRuntime = "androidx.room:room-runtime:$roomVersion"
+        legacyLib = 'androidx.legacy:legacy-support-v4:1.0.0'
+        fcmLib = "com.google.firebase:firebase-messaging-ktx:$fcmVersion"
+        paggingLib = "androidx.paging:paging-common-ktx:$paggingVersion"
+        // To use Kotlin annotation processing tool
+        roomCompiler = "androidx.room:room-compiler:$roomVersion"
+        roomLib = "androidx.room:room-ktx:$roomVersion"
+
+        //coroutines
+        // optional - Kotlin Extensions and Coroutines support for Room
+        coroutinesLib = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+        coroutinesTestLib = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
+
+        //Navigation
+        navigationLib = "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+        navigationUILib = "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+        //Kotlin
+        kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+        //Retrofit
+        retrofitLib = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+        retrofitConverterLib = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+        okHttpLib = "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        gsonLib = "com.google.code.gson:gson:$gsonVersion"
+        interceptorLib = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+        //Glide
+        glideLib = "com.github.bumptech.glide:glide:$glideVersion"
+        glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
+
+        //paging
+        paggingKtx = "androidx.paging:paging-runtime-ktx:$paggingVersion"
+        //paggingRuntime = "androidx.paging:paging-runtime:$paggingVersion"
+
+        //maps
+        mapsLib = "com.google.android.gms:play-services-maps:$gmsVersion"
+
+        //JUnit
+        jUnitLib = "junit:junit:$jUnitVersion"
+
+        //Mockito
+        mockitoLib = "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+        mockitoInlineLib = "org.mockito:mockito-inline:$mockitoKotlinInlineVersion"
+
+        //Test
+        coreTestLib = "androidx.arch.core:core-testing:$coreTestingVersion"
+        mockkLib = "io.mockk:mockk:$mockVersion"
+
+    }
+    dependencies {
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.2'
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3'
+    }
+}
+
+plugins {
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
