@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            android:background="@android:color/transparent"
+            android:src="@drawable/menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_gap"
+            android:fontFamily="@font/merriweather_black"
+            android:gravity="center"
+            android:text="FilmKu"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/h2"
+            app:layout_constraintBottom_toBottomOf="@id/btnMenu"
+            app:layout_constraintEnd_toStartOf="@id/btnNotification"
+            app:layout_constraintStart_toEndOf="@id/btnMenu"
+            app:layout_constraintTop_toTopOf="@id/btnMenu" />
+
+        <ImageButton
+            android:id="@+id/btnNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintBottom_toBottomOf="@id/btnMenu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnMenu" />
+
+        <TextView
+            android:id="@+id/titleShowing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_gap"
+            android:fontFamily="@font/merriweather_black"
+            android:gravity="center"
+            android:text="Now Showing"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/h2"
+            android:layout_marginTop="@dimen/medium_gap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnMenu" />
+        
+        <TextView
+            android:id="@+id/btnNowMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See more"
+            android:textSize="@dimen/h5"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/hint_color"
+            android:fontFamily="@font/mulish_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleShowing"
+            app:layout_constraintBottom_toBottomOf="@id/titleShowing"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:background="@drawable/see_more_style"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/nowShowingRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleShowing"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            tools:listitem="@layout/item_showing_movie"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
