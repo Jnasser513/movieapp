@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieApp</string>
+    <string name="item_showing_movie_points">%.1f/10 IMDb</string>
 </resources>
