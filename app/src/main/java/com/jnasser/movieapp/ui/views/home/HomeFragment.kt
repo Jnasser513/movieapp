@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.jnasser.movieapp.domain.response.movie.MovieResponse
 import com.jnasser.movieapp.framework.requestmanager.pagingDataSource.NowPlayingMoviesPagingSource
 import com.jnasser.movieapp.presentation.NowPlayingViewModel
 import com.jnasser.movieapp.ui.utils.messageToast
+import com.jnasser.movieapp.ui.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.HttpException
 
@@ -67,7 +69,9 @@ class HomeFragment: Fragment() {
 
     private fun initRecyclerViews() {
         nowPlayingAdapter = NowPlayingAdapter { movieId ->
-
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToMovieDetailFragment(movieId)
+            findNavController().safeNavigate(direction)
         }
 
         with(binding.nowShowingRecyclerView) {

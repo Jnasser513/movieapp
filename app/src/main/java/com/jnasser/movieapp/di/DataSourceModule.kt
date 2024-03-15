@@ -1,5 +1,6 @@
 package com.jnasser.movieapp.di
 
+import com.jnasser.movieapp.data.datasource.RemoteVideoDataSource
 import com.jnasser.movieapp.framework.requestmanager.APIService
 import com.jnasser.movieapp.framework.requestmanager.datasource.VideosRetrofitDataSource
 import dagger.Module
@@ -16,7 +17,7 @@ object DataSourceModule {
     @Provides
     fun provideRemoteVideosDataSource(
         service: APIService
-    ): VideosRetrofitDataSource {
+    ): RemoteVideoDataSource {
         return VideosRetrofitDataSource(service)
     }
 

@@ -91,6 +91,8 @@ dependencies {
     implementation paggingKtx
     //implementation paggingRuntime
 
+    implementation youtubeLib
+
     testImplementation jUnitLib
     testImplementation mockitoLib
     testImplementation mockitoInlineLib

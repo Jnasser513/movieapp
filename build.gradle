@@ -37,6 +37,7 @@ buildscript {
         coreTestingVersion = '2.1.0'
         mockVersion = '1.12.2'
         gmsVersion = '17.0.1'
+        youtubeVersion = '11.0.0'
 
         //Activity
         activityLib = "androidx.activity:activity-ktx:$activityVersion"
@@ -109,6 +110,9 @@ buildscript {
         //Test
         coreTestLib = "androidx.arch.core:core-testing:$coreTestingVersion"
         mockkLib = "io.mockk:mockk:$mockVersion"
+
+        //Youtube
+        youtubeLib = "com.pierfrancescosoffritti.androidyoutubeplayer:core:$youtubeVersion"
 
     }
     dependencies {

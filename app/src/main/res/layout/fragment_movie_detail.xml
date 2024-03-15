@@ -22,12 +22,13 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_return"/>
 
-        <VideoView
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/videoPlayer"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:autoPlay="false"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.card.MaterialCardView
