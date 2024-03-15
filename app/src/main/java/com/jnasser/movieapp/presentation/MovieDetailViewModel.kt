@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.jnasser.movieapp.di.IoDispatcher
 import com.jnasser.movieapp.domain.response.ApiResponse
 import com.jnasser.movieapp.domain.response.UIStatus
+import com.jnasser.movieapp.domain.response.movie.MovieCastResponse
 import com.jnasser.movieapp.domain.response.movie.MovieDetailResponse
 import com.jnasser.movieapp.domain.response.videos.VideoResponse
+import com.jnasser.movieapp.intereactors.GetMovieCastUseCase
 import com.jnasser.movieapp.intereactors.GetMovieDetailUseCase
 import com.jnasser.movieapp.intereactors.GetVideosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +23,7 @@ class MovieDetailViewModel
 @Inject constructor(
     private val getVideosUseCase: GetVideosUseCase,
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val getMovieCastUseCase: GetMovieCastUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
@@ -50,6 +53,24 @@ class MovieDetailViewModel
         viewModelScope.launch(ioDispatcher) {
             _statusDetail.postValue(
                 when (val response = getMovieDetailUseCase.invoke(id)) {
+                    is ApiResponse.Error -> UIStatus.Error(response.exception)
+                    is ApiResponse.ErrorWithMessage -> UIStatus.ErrorWithMessage(response.message)
+                    is ApiResponse.Success -> UIStatus.Success(response.data)
+                    is ApiResponse.LogOut -> UIStatus.LogOut(response.message)
+                    is ApiResponse.EmptyList -> UIStatus.EmptyList(response.data)
+                }
+            )
+        }
+    }
+
+    private val _statusCast = MutableLiveData<UIStatus<MovieCastResponse>>()
+    val statusCast: LiveData<UIStatus<MovieCastResponse>> get() = _statusCast
+
+    fun getMovieCast(id: Int) {
+        _statusCast.value = UIStatus.Loading("Cargando...")
+        viewModelScope.launch(ioDispatcher) {
+            _statusCast.postValue(
+                when (val response = getMovieCastUseCase.invoke(id)) {
                     is ApiResponse.Error -> UIStatus.Error(response.exception)
                     is ApiResponse.ErrorWithMessage -> UIStatus.ErrorWithMessage(response.message)
                     is ApiResponse.Success -> UIStatus.Success(response.data)

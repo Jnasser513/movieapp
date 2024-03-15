@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="movie"
             type="com.jnasser.movieapp.domain.response.movie.MovieResponse" />
@@ -19,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="212dp"
             android:theme="@style/roundedImageView"
+            app:imageUrl="@{movie.image}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

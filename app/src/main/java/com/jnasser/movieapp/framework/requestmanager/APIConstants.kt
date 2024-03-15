@@ -10,6 +10,6 @@ object APIConstants {
     const val ENDPOINT_NOW_PLAYING = "movie/now_playing"
     const val ENDPOINT_MOVIE_VIDEOS= "movie/{movieId}/videos"
     const val ENDPOINT_MOVIE_DETAIL = "movie/{movieId}"
-    const val ENDPOINT_MOVIE_CAST = "movie/{movieId}/creadits"
+    const val ENDPOINT_MOVIE_CAST = "movie/{movieId}/credits"
 
 }

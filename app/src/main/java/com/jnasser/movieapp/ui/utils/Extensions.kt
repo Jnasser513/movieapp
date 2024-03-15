@@ -3,11 +3,14 @@ package com.jnasser.movieapp.ui.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.jnasser.movieapp.R
 

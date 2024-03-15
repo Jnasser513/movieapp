@@ -14,11 +14,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.jnasser.movieapp.R
 import com.jnasser.movieapp.databinding.FragmentMovieDetailBinding
 import com.jnasser.movieapp.domain.response.UIStatus
+import com.jnasser.movieapp.domain.response.movie.MovieCastResponse
 import com.jnasser.movieapp.domain.response.movie.MovieDetailResponse
 import com.jnasser.movieapp.domain.response.movie.MovieGenre
 import com.jnasser.movieapp.domain.response.videos.VideoResponse
@@ -40,6 +43,8 @@ class MovieDetailFragment: Fragment() {
 
     private val args: MovieDetailFragmentArgs by navArgs()
 
+    private val castAdapter = CastAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,12 +58,22 @@ class MovieDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRecyclerViews()
+
         this@MovieDetailFragment.lifecycle.addObserver(binding.videoPlayer)
-        viewModel.getVideo(args.movieId)
         viewModel.getMovieDetail(args.movieId)
+        viewModel.getVideo(args.movieId)
+        viewModel.getMovieCast(args.movieId)
 
         setUpListeners()
         setUpObservers()
+    }
+
+    private fun initRecyclerViews() {
+        with(binding.castRecyclerView) {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+            adapter = castAdapter
+        }
     }
 
     private fun setUpListeners() {
@@ -74,6 +89,10 @@ class MovieDetailFragment: Fragment() {
 
         viewModel.statusDetail.observe(viewLifecycleOwner) { status ->
             handleDetailState(status)
+        }
+
+        viewModel.statusCast.observe(viewLifecycleOwner) { status ->
+            handleCastState(status)
         }
     }
 
@@ -122,6 +141,31 @@ class MovieDetailFragment: Fragment() {
                 status.data?.genres?.let {
                     setTypes(it)
                 }
+            }
+
+            is UIStatus.EmptyList -> {
+
+            }
+            is UIStatus.LogOut -> {
+                requireContext().messageToast(status.message)
+            }
+        }
+    }
+
+    private fun handleCastState(status: UIStatus<MovieCastResponse>?) {
+        when(status) {
+            is UIStatus.Error -> {
+                //Aqui podemos manejar las diferentes excepciones
+                requireContext().messageToast("Algo salio mal...")
+            }
+            is UIStatus.ErrorWithMessage -> {
+                requireContext().messageToast(status.message)
+            }
+            is UIStatus.Loading -> {
+                //Aqui podemos manejar el estado de cargando
+            }
+            is UIStatus.Success -> {
+                status.data?.cast?.let { castAdapter.setData(it) }
             }
 
             is UIStatus.EmptyList -> {
