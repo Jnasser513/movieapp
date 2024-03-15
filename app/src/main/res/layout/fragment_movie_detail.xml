@@ -57,7 +57,7 @@
 
                     <TextView
                         android:id="@+id/movieName"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/default_gap"
                         android:layout_marginTop="@dimen/default_gap"
@@ -65,8 +65,19 @@
                         android:text="@{movie.title}"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/h1"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnFavorite"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/btnFavorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_gap"
+                        android:layout_marginEnd="@dimen/default_gap"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_bookmark"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
@@ -214,12 +225,12 @@
                         android:id="@+id/castRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/castTitle"
-                        android:layout_marginTop="@dimen/default_gap"
                         android:layout_marginStart="11dp"
-                        tools:listitem="@layout/item_cast"/>
+                        android:layout_marginTop="@dimen/default_gap"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/castTitle"
+                        tools:listitem="@layout/item_cast" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
