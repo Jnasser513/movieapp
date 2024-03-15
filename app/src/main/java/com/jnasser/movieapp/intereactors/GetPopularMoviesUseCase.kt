@@ -2,11 +2,10 @@ package com.jnasser.movieapp.intereactors
 
 import com.jnasser.movieapp.data.repositories.MoviesRepository
 
-class GetNowPlayingMoviesUseCase(
+class GetPopularMoviesUseCase(
     private val repository: MoviesRepository
 ) {
 
-    fun invoke() = repository.getNowPlayingMovies()
-    suspend fun invokeFirst() = repository.getFirstNowPlayingMovies()
+    fun invoke() = repository.getPopularMovies()
 
 }

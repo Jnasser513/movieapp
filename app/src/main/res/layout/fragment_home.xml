@@ -92,7 +92,7 @@
             android:layout_marginTop="@dimen/default_gap"
             tools:listitem="@layout/item_showing_movie"/>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/titlePopular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
             app:layout_constraintTop_toBottomOf="@id/btnUpcomingMore"
             android:layout_marginStart="@dimen/default_gap"
             android:layout_marginTop="@dimen/default_gap"
-            tools:listitem="@layout/item_showing_movie"/>
+            tools:listitem="@layout/item_showing_movie"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

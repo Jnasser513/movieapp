@@ -8,6 +8,7 @@ import com.jnasser.movieapp.intereactors.GetLocalMoviesUseCase
 import com.jnasser.movieapp.intereactors.GetMovieCastUseCase
 import com.jnasser.movieapp.intereactors.GetMovieDetailUseCase
 import com.jnasser.movieapp.intereactors.GetNowPlayingMoviesUseCase
+import com.jnasser.movieapp.intereactors.GetPopularMoviesUseCase
 import com.jnasser.movieapp.intereactors.GetVideosUseCase
 import com.jnasser.movieapp.intereactors.InsertMovieUseCase
 import dagger.Module
@@ -77,5 +78,11 @@ object UseCaseModule {
     fun provideGetMoviesIds(
         movieRepository: MoviesRepository
     ) = GetLocalMoviesIdsUseCase(movieRepository)
+
+    @ViewModelScoped
+    @Provides
+    fun provideGetPopularMoviesUseCase(
+        movieRepository: MoviesRepository
+    ) = GetPopularMoviesUseCase(movieRepository)
 
 }

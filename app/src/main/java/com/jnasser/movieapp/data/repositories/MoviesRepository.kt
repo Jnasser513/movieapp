@@ -9,6 +9,7 @@ import com.jnasser.movieapp.domain.response.RoomResponse
 import com.jnasser.movieapp.framework.databasemanager.entities.MovieEntity
 import com.jnasser.movieapp.framework.requestmanager.APIService
 import com.jnasser.movieapp.framework.requestmanager.pagingDataSource.NowPlayingMoviesPagingSource
+import com.jnasser.movieapp.framework.requestmanager.pagingDataSource.PopularMoviesPagingSource
 
 class MoviesRepository(
     private val service: APIService,
@@ -16,6 +17,8 @@ class MoviesRepository(
     private val localMovieDataSource: LocalMovieDataSource
 ) {
 
+    suspend fun getFirstNowPlayingMovies() =
+        remoteMovieDataSource.getNowPlayingMovies()
     fun getNowPlayingMovies() =
         Pager(
             config = PagingConfig(
@@ -25,6 +28,18 @@ class MoviesRepository(
             ),
             pagingSourceFactory = {
                 NowPlayingMoviesPagingSource(service)
+            }, initialKey = 1
+        ).liveData
+
+    fun getPopularMovies() =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false,
+                initialLoadSize = 40
+            ),
+            pagingSourceFactory = {
+                PopularMoviesPagingSource(service)
             }, initialKey = 1
         ).liveData
 

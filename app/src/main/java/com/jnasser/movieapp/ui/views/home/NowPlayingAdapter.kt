@@ -15,10 +15,6 @@ class NowPlayingAdapter(private val onClick: (Int) -> Unit): PagingDataAdapter<M
 
     inner class NowPlayingViewHolder(private val binding: ItemShowingMovieBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MovieResponse) {
-            /*Glide.with(binding.root)
-                .load(APIConstants.IMAGE_BASE_URL + item.image)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.image)*/
             binding.movie = item
             binding.executePendingBindings()
 

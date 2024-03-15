@@ -1,6 +1,5 @@
 package com.jnasser.movieapp.ui.views.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jnasser.movieapp.databinding.FragmentHomeBinding
+import com.jnasser.movieapp.domain.response.UIStatus
 import com.jnasser.movieapp.domain.response.movie.MovieResponse
 import com.jnasser.movieapp.framework.requestmanager.pagingDataSource.NowPlayingMoviesPagingSource
-import com.jnasser.movieapp.presentation.NowPlayingViewModel
+import com.jnasser.movieapp.presentation.HomeViewModel
 import com.jnasser.movieapp.ui.utils.messageToast
 import com.jnasser.movieapp.ui.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,9 +28,12 @@ class HomeFragment: Fragment() {
     private var mBinding: FragmentHomeBinding? = null
     private val binding get() = mBinding!!
 
-    private val viewModel: NowPlayingViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var nowPlayingAdapter: NowPlayingAdapter
+    private lateinit var popularAdapter: PopularAdapter
+
+    private var isScrollEnabled = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,8 +48,7 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getNowPLayingMovies()
-
+        viewModel.getNowPlayingMovies()
         initRecyclerViews()
         setUpObservers()
         setUpListeners()
@@ -55,15 +56,51 @@ class HomeFragment: Fragment() {
 
     private fun setUpListeners() {
         binding.btnNowMore.setOnClickListener {
+            with(binding.nowShowingRecyclerView) {
+                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                adapter = nowPlayingAdapter
+            }
 
+            viewModel.getNowPLayingMovies().observe(viewLifecycleOwner) { movies ->
+                nowPlayingAdapter.submitData(this@HomeFragment.lifecycle, movies)
+            }
         }
     }
 
     private fun setUpObservers() {
         observeAdapterState()
 
-        viewModel.getNowPLayingMovies().observe(viewLifecycleOwner) { movies ->
-            nowPlayingAdapter.submitData(this@HomeFragment.lifecycle, movies)
+        viewModel.statusNowPlayingMovies.observe(viewLifecycleOwner) { status ->
+            handleNowPlayingMoviesState(status)
+        }
+    }
+
+    private fun handleNowPlayingMoviesState(status: UIStatus<List<MovieResponse>>?) {
+        when (status) {
+            is UIStatus.Error -> {
+                //Aqui podemos manejar las diferentes excepciones
+                requireContext().messageToast("Algo salio mal...")
+            }
+
+            is UIStatus.ErrorWithMessage -> {
+                requireContext().messageToast(status.message)
+            }
+
+            is UIStatus.Loading -> {
+                //Aqui podemos manejar el estado de cargando
+            }
+
+            is UIStatus.Success -> {
+                status.data?.let { popularAdapter.setData(it) }
+            }
+
+            is UIStatus.EmptyList -> {
+
+            }
+
+            is UIStatus.LogOut -> {
+                requireContext().messageToast(status.message)
+            }
         }
     }
 
@@ -74,9 +111,15 @@ class HomeFragment: Fragment() {
             findNavController().safeNavigate(direction)
         }
 
+        popularAdapter = PopularAdapter { movieId ->
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToMovieDetailFragment(movieId)
+            findNavController().safeNavigate(direction)
+        }
+
         with(binding.nowShowingRecyclerView) {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-            adapter = nowPlayingAdapter
+            adapter = popularAdapter
         }
     }
 
