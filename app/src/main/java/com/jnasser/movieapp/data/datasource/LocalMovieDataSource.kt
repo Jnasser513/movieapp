@@ -9,8 +9,8 @@ interface LocalMovieDataSource {
 
     fun getMovies(): RoomResponse<List<MovieEntity>>
 
-    fun getMoviesIds(): RoomResponse<List<Int>>
+    fun getMoviesIds(id: Int): RoomResponse<Int>
 
-    fun deleteMovie(movieEntity: MovieEntity): RoomResponse<Int>
+    fun deleteMovie(id: Int): RoomResponse<Int>
 
 }

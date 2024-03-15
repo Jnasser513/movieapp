@@ -1,5 +1,6 @@
 package com.jnasser.movieapp.di
 
+import com.jnasser.movieapp.data.datasource.LocalMovieDataSource
 import com.jnasser.movieapp.data.datasource.RemoteMovieDataSource
 import com.jnasser.movieapp.data.datasource.RemoteVideoDataSource
 import com.jnasser.movieapp.data.repositories.MoviesRepository
@@ -19,9 +20,10 @@ object RepositoryModule {
     @Provides
     fun provideMoviesRepository(
         service: APIService,
-        remoteMovieDataSource: RemoteMovieDataSource
+        remoteMovieDataSource: RemoteMovieDataSource,
+        localMovieDataSource: LocalMovieDataSource
     ): MoviesRepository {
-        return MoviesRepository(service, remoteMovieDataSource)
+        return MoviesRepository(service, remoteMovieDataSource, localMovieDataSource)
     }
 
     @Singleton

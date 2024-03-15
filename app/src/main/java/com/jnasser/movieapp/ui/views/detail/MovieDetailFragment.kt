@@ -1,14 +1,9 @@
 package com.jnasser.movieapp.ui.views.detail
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.widget.MediaController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,24 +12,26 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.jnasser.movieapp.R
 import com.jnasser.movieapp.databinding.FragmentMovieDetailBinding
+import com.jnasser.movieapp.domain.mappers.toMovieCastEntityList
+import com.jnasser.movieapp.domain.mappers.toMovieGenreEntityList
+import com.jnasser.movieapp.domain.mappers.toMovieLanguageEntityList
 import com.jnasser.movieapp.domain.response.UIStatus
+import com.jnasser.movieapp.domain.response.movie.MovieCast
 import com.jnasser.movieapp.domain.response.movie.MovieCastResponse
 import com.jnasser.movieapp.domain.response.movie.MovieDetailResponse
 import com.jnasser.movieapp.domain.response.movie.MovieGenre
 import com.jnasser.movieapp.domain.response.videos.VideoResponse
-import com.jnasser.movieapp.framework.requestmanager.APIConstants
+import com.jnasser.movieapp.framework.databasemanager.entities.MovieEntity
 import com.jnasser.movieapp.presentation.MovieDetailViewModel
 import com.jnasser.movieapp.ui.utils.messageToast
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
-class MovieDetailFragment: Fragment() {
+class MovieDetailFragment : Fragment() {
 
     private var mBinding: FragmentMovieDetailBinding? = null
     private val binding get() = mBinding!!
@@ -44,6 +41,11 @@ class MovieDetailFragment: Fragment() {
     private val args: MovieDetailFragmentArgs by navArgs()
 
     private val castAdapter = CastAdapter()
+
+    private lateinit var movieDetail: MovieDetailResponse
+    private lateinit var movieCast: List<MovieCast>
+
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +66,7 @@ class MovieDetailFragment: Fragment() {
         viewModel.getMovieDetail(args.movieId)
         viewModel.getVideo(args.movieId)
         viewModel.getMovieCast(args.movieId)
+        viewModel.getLocalMoviesIds(args.movieId)
 
         setUpListeners()
         setUpObservers()
@@ -80,6 +83,33 @@ class MovieDetailFragment: Fragment() {
         binding.btnReturn.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.btnFavorite.setOnClickListener {
+            if(isFavorite) {
+                viewModel.deleteMovie(args.movieId)
+            } else {
+                movieDetail.title?.let { it1 ->
+                    movieDetail.point?.let { it2 ->
+                        movieDetail.genres?.toMovieGenreEntityList()?.let { it3 ->
+                            movieDetail.time?.let { it4 ->
+                                movieDetail.description?.let { it5 ->
+                                    MovieEntity(
+                                        args.movieId,
+                                        it1,
+                                        it2,
+                                        it3,
+                                        it4,
+                                        movieDetail.languages?.toMovieLanguageEntityList(),
+                                        it5,
+                                        movieCast.toMovieCastEntityList()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }?.let { it2 -> viewModel.insertMovie(it2) }
+            }
+        }
     }
 
     private fun setUpObservers() {
@@ -94,27 +124,44 @@ class MovieDetailFragment: Fragment() {
         viewModel.statusCast.observe(viewLifecycleOwner) { status ->
             handleCastState(status)
         }
+
+        viewModel.statusInsertMovie.observe(viewLifecycleOwner) { status ->
+            handleInsertMovieStatus(status)
+        }
+
+        viewModel.statusLocalMoviesIds.observe(viewLifecycleOwner) { status ->
+            handleLocalMovieIdsStatus(status)
+        }
+
+        viewModel.statusDeleteMovie.observe(viewLifecycleOwner) { status ->
+            handleDeleteMovieStatus(status)
+        }
     }
 
     private fun handleVideoState(status: UIStatus<List<VideoResponse>>?) {
-        when(status) {
+        when (status) {
             is UIStatus.Error -> {
                 //Aqui podemos manejar las diferentes excepciones
                 requireContext().messageToast("Algo salio mal...")
             }
+
             is UIStatus.ErrorWithMessage -> {
                 requireContext().messageToast(status.message)
             }
+
             is UIStatus.Loading -> {
                 //Aqui podemos manejar el estado de cargando
             }
+
             is UIStatus.Success -> {
                 val trailer = status.data?.firstOrNull() { it.type == "Trailer" }
                 playTrailer(trailer?.key ?: status.data?.get(0)?.key.toString())
             }
+
             is UIStatus.EmptyList -> {
 
             }
+
             is UIStatus.LogOut -> {
                 requireContext().messageToast(status.message)
             }
@@ -122,19 +169,23 @@ class MovieDetailFragment: Fragment() {
     }
 
     private fun handleDetailState(status: UIStatus<MovieDetailResponse>?) {
-        when(status) {
+        when (status) {
             is UIStatus.Error -> {
                 //Aqui podemos manejar las diferentes excepciones
                 requireContext().messageToast("Algo salio mal...")
             }
+
             is UIStatus.ErrorWithMessage -> {
                 requireContext().messageToast(status.message)
             }
+
             is UIStatus.Loading -> {
                 //Aqui podemos manejar el estado de cargando
             }
+
             is UIStatus.Success -> {
                 status.data?.let {
+                    movieDetail = it
                     binding.movie = it
                     binding.executePendingBindings()
                 }
@@ -146,6 +197,7 @@ class MovieDetailFragment: Fragment() {
             is UIStatus.EmptyList -> {
 
             }
+
             is UIStatus.LogOut -> {
                 requireContext().messageToast(status.message)
             }
@@ -153,34 +205,135 @@ class MovieDetailFragment: Fragment() {
     }
 
     private fun handleCastState(status: UIStatus<MovieCastResponse>?) {
-        when(status) {
+        when (status) {
             is UIStatus.Error -> {
                 //Aqui podemos manejar las diferentes excepciones
                 requireContext().messageToast("Algo salio mal...")
             }
+
             is UIStatus.ErrorWithMessage -> {
                 requireContext().messageToast(status.message)
             }
+
             is UIStatus.Loading -> {
                 //Aqui podemos manejar el estado de cargando
             }
+
             is UIStatus.Success -> {
-                status.data?.cast?.let { castAdapter.setData(it) }
+                status.data?.cast?.let {
+                    movieCast = it
+                    castAdapter.setData(it)
+                }
             }
 
             is UIStatus.EmptyList -> {
 
             }
+
             is UIStatus.LogOut -> {
                 requireContext().messageToast(status.message)
             }
         }
     }
 
-    private fun setTypes(types: List<MovieGenre>){
+    private fun handleInsertMovieStatus(status: UIStatus<Long>) {
+        when (status) {
+            is UIStatus.Error -> {
+                //Aqui podemos manejar las diferentes excepciones
+                requireContext().messageToast("Algo salio mal...")
+            }
+
+            is UIStatus.ErrorWithMessage -> {
+                requireContext().messageToast(status.message)
+            }
+
+            is UIStatus.Loading -> {
+
+            }
+
+            is UIStatus.Success -> {
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmar_saved))
+            }
+
+            is UIStatus.EmptyList -> {
+                requireContext().messageToast("No se pudo agregar a favoritos")
+            }
+
+            is UIStatus.LogOut -> {
+                requireContext().messageToast(status.message)
+            }
+        }
+    }
+
+    private fun handleLocalMovieIdsStatus(status: UIStatus<Int>) {
+        when (status) {
+            is UIStatus.Error -> {
+                //Aqui podemos manejar las diferentes excepciones
+                requireContext().messageToast("Algo salio mal...")
+            }
+
+            is UIStatus.ErrorWithMessage -> {
+                requireContext().messageToast(status.message)
+            }
+
+            is UIStatus.Loading -> {
+
+            }
+
+            is UIStatus.Success -> {
+                isFavorite = true
+                binding.btnFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_bookmar_saved
+                    )
+                )
+            }
+
+            is UIStatus.EmptyList -> {
+                isFavorite = false
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmark))
+            }
+
+            is UIStatus.LogOut -> {
+                requireContext().messageToast(status.message)
+            }
+        }
+    }
+
+    private fun handleDeleteMovieStatus(status: UIStatus<Int>) {
+        when (status) {
+            is UIStatus.Error -> {
+                //Aqui podemos manejar las diferentes excepciones
+                requireContext().messageToast("Algo salio mal...")
+            }
+
+            is UIStatus.ErrorWithMessage -> {
+                requireContext().messageToast(status.message)
+            }
+
+            is UIStatus.Loading -> {
+
+            }
+
+            is UIStatus.Success -> {
+                binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmark))
+            }
+
+            is UIStatus.EmptyList -> {
+
+            }
+
+            is UIStatus.LogOut -> {
+                requireContext().messageToast(status.message)
+            }
+        }
+    }
+
+    private fun setTypes(types: List<MovieGenre>) {
         val chips = binding.typesGroup
         chips.removeAllViews()
-        types.forEach{ item ->
+        types.forEach { item ->
             chips.addView(Chip(requireContext()).apply {
                 text = item.name
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.third_color))
@@ -190,7 +343,7 @@ class MovieDetailFragment: Fragment() {
     }
 
     private fun playTrailer(videoUrl: String) {
-        binding.videoPlayer.addYouTubePlayerListener(object: AbstractYouTubePlayerListener() {
+        binding.videoPlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(videoUrl, 0f)
             }

@@ -36,22 +36,22 @@ class MovieRoomDataSource(
         }
     }
 
-    override fun getMoviesIds(): RoomResponse<List<Int>> {
+    override fun getMoviesIds(id: Int): RoomResponse<Int> {
         return try {
-            val movies = movieDao.getMoviesIds()
-            if (movies.isEmpty()) {
-                RoomResponse.EmptyList(movies)
+            val count = movieDao.getMoviesIds(id)
+            if (count > 0) {
+                RoomResponse.Success()
             } else {
-                RoomResponse.Success(movies)
+                RoomResponse.EmptyList(count)
             }
         } catch (e: IOException) {
             RoomResponse.Error(e)
         }
     }
 
-    override fun deleteMovie(movieEntity: MovieEntity): RoomResponse<Int> {
+    override fun deleteMovie(id: Int): RoomResponse<Int> {
         return try {
-            val deletedMovie = movieDao.deleteMovie(movieEntity)
+            val deletedMovie = movieDao.deleteMovie(id)
             if (deletedMovie != -1) {
                 RoomResponse.Success()
             } else {

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.jnasser.movieapp.framework.databasemanager.daos.MovieDAO
 import com.jnasser.movieapp.framework.databasemanager.entities.MovieCastEntity
 import com.jnasser.movieapp.framework.databasemanager.entities.MovieEntity
@@ -19,6 +20,7 @@ import com.jnasser.movieapp.framework.databasemanager.entities.MovieLanguageEnti
         MovieCastEntity::class
     ]
 )
+@TypeConverters(TypeConverter::class)
 abstract class MovieDB : RoomDatabase() {
     abstract fun movieDao(): MovieDAO
 

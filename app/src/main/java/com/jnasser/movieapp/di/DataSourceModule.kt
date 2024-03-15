@@ -1,7 +1,10 @@
 package com.jnasser.movieapp.di
 
+import com.jnasser.movieapp.data.datasource.LocalMovieDataSource
 import com.jnasser.movieapp.data.datasource.RemoteMovieDataSource
 import com.jnasser.movieapp.data.datasource.RemoteVideoDataSource
+import com.jnasser.movieapp.framework.databasemanager.daos.MovieDAO
+import com.jnasser.movieapp.framework.databasemanager.datasource.MovieRoomDataSource
 import com.jnasser.movieapp.framework.requestmanager.APIService
 import com.jnasser.movieapp.framework.requestmanager.datasource.MovieRetrofitDataSource
 import com.jnasser.movieapp.framework.requestmanager.datasource.VideosRetrofitDataSource
@@ -29,6 +32,14 @@ object DataSourceModule {
         service: APIService
     ): RemoteMovieDataSource {
         return MovieRetrofitDataSource(service)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalMoviesDataSource(
+        moviesDao: MovieDAO
+    ): LocalMovieDataSource {
+        return MovieRoomDataSource(moviesDao)
     }
 
 }
