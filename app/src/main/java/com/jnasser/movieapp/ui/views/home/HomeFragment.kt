@@ -91,7 +91,7 @@ class HomeFragment: Fragment() {
                 requireContext().messageToast("Cargando")
                 //binding.progressBar.visibility = View.VISIBLE
             } else {
-                requireContext().messageToast("Finalizado")
+                //requireContext().messageToast("Finalizado")
                 //binding.progressBar.visibility = View.GONE
 
                 when(val currentState = loadState.refresh) {

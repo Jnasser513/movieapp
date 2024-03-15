@@ -1,6 +1,7 @@
 package com.jnasser.movieapp.framework.requestmanager
 
 import com.jnasser.movieapp.domain.response.GenericPagedResponse
+import com.jnasser.movieapp.domain.response.movie.MovieDetailResponse
 import com.jnasser.movieapp.domain.response.movie.MovieResponse
 import com.jnasser.movieapp.domain.response.videos.VideoResponse
 import retrofit2.Response
@@ -15,5 +16,8 @@ interface APIService {
 
     @GET(APIConstants.API_BASE_URL + APIConstants.ENDPOINT_MOVIE_VIDEOS)
     suspend fun getVideos(@Path("movieId") id: Int): Response<GenericPagedResponse<VideoResponse>>
+
+    @GET(APIConstants.API_BASE_URL + APIConstants.ENDPOINT_MOVIE_DETAIL)
+    suspend fun getMovieDetail(@Query("language") language: String, @Path("movieId") id: Int): Response<MovieDetailResponse>
 
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jnasser.movieapp.databinding.FragmentMovieDetailBinding
 import com.jnasser.movieapp.domain.response.UIStatus
@@ -45,7 +46,14 @@ class MovieDetailFragment: Fragment() {
         this@MovieDetailFragment.lifecycle.addObserver(binding.videoPlayer)
         viewModel.getVideo(args.movieId)
 
+        setUpListeners()
         setUpObservers()
+    }
+
+    private fun setUpListeners() {
+        binding.btnReturn.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setUpObservers() {
