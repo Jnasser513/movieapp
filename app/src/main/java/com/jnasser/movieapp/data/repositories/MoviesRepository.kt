@@ -27,4 +27,7 @@ class MoviesRepository(
     suspend fun getMovieDetail(id: Int) =
         remoteMovieDataSource.getMovieDetail(id)
 
+    suspend fun getMovieCast(id: Int) =
+        remoteMovieDataSource.getMovieCast(id)
+
 }

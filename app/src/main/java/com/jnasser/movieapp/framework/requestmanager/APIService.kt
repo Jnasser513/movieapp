@@ -1,6 +1,7 @@
 package com.jnasser.movieapp.framework.requestmanager
 
 import com.jnasser.movieapp.domain.response.GenericPagedResponse
+import com.jnasser.movieapp.domain.response.movie.MovieCastResponse
 import com.jnasser.movieapp.domain.response.movie.MovieDetailResponse
 import com.jnasser.movieapp.domain.response.movie.MovieResponse
 import com.jnasser.movieapp.domain.response.videos.VideoResponse
@@ -18,6 +19,8 @@ interface APIService {
     suspend fun getVideos(@Path("movieId") id: Int): Response<GenericPagedResponse<VideoResponse>>
 
     @GET(APIConstants.API_BASE_URL + APIConstants.ENDPOINT_MOVIE_DETAIL)
-    suspend fun getMovieDetail(@Query("language") language: String, @Path("movieId") id: Int): Response<MovieDetailResponse>
+    suspend fun getMovieDetail(@Path("movieId") id: Int, @Query("language") language: String): Response<MovieDetailResponse>
 
+    @GET(APIConstants.API_BASE_URL + APIConstants.ENDPOINT_MOVIE_CAST)
+    suspend fun getMovieCast(@Path("movieId") id: Int, @Query("language") language: String): Response<MovieCastResponse>
 }

@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="movie"
+            type="com.jnasser.movieapp.domain.response.movie.MovieDetailResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,42 +16,202 @@
         <ImageButton
             android:id="@+id/btnReturn"
             android:layout_width="30dp"
-            android:elevation="1dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="30dp"
             android:layout_marginStart="@dimen/default_gap"
             android:layout_marginTop="@dimen/default_gap"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_return"/>
+            android:background="@android:color/transparent"
+            android:elevation="1dp"
+            android:src="@drawable/ic_return"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/videoPlayer"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:autoPlay="false"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="-20dp"
             android:theme="@style/CustomCardViewStyle"
-            app:layout_constraintTop_toBottomOf="@id/videoPlayer"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="-20dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoPlayer">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/movieName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/default_gap"
+                        android:fontFamily="@font/mulish_bold"
+                        android:text="@{movie.title}"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/startImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/minimum_gap"
+                        android:src="@drawable/ic_star"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/movieName" />
+
+                    <TextView
+                        android:id="@+id/points"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:fontFamily="@font/mulish_bold"
+                        android:text="@{@string/item_showing_movie_points(movie.point)}"
+                        android:textColor="#9C9C9C"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintBottom_toBottomOf="@id/startImage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/startImage"
+                        app:layout_constraintTop_toTopOf="@id/startImage" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/default_gap"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/startImage">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/typesGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_agricola"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:checkable="false"
+                                android:fontFamily="@font/mulish_bold"
+                                android:text="ACTION"
+                                android:textColor="@color/third_color"
+                                android:textSize="@dimen/h7"
+                                app:chipBackgroundColor="@color/fourth_color" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/lengthTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/default_gap"
+                        android:fontFamily="@font/mulish_regular"
+                        android:text="Length"
+                        android:textColor="#9C9C9C"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/scrollView" />
+
+                    <TextView
+                        android:id="@+id/length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toStartOf="@id/lengthTitle"
+                        app:layout_constraintTop_toBottomOf="@id/lengthTitle"
+                        app:timeInHoursMinutes="@{movie.time}" />
+
+                    <TextView
+                        android:id="@+id/languageTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/default_gap"
+                        android:fontFamily="@font/mulish_regular"
+                        android:text="Language"
+                        android:textColor="#9C9C9C"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toEndOf="@id/length"
+                        app:layout_constraintTop_toBottomOf="@id/scrollView" />
+
+                    <TextView
+                        android:id="@+id/language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/mulish_bold"
+                        android:text="@{movie.languages.get(0).name}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toStartOf="@id/languageTitle"
+                        app:layout_constraintTop_toBottomOf="@id/languageTitle" />
+
+                    <TextView
+                        android:id="@+id/descriptionTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/medium_gap"
+                        android:fontFamily="@font/merriweather_black"
+                        android:text="Description"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/length" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/minimum_gap"
+                        android:fontFamily="@font/mulish_regular"
+                        android:text="@{movie.description}"
+                        android:textColor="#9C9C9C"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/descriptionTitle" />
+
+                    <TextView
+                        android:id="@+id/castTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_gap"
+                        android:layout_marginTop="@dimen/medium_gap"
+                        android:fontFamily="@font/merriweather_black"
+                        android:text="Cast"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
 
         </com.google.android.material.card.MaterialCardView>
 

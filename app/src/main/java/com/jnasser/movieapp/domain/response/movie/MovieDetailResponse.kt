@@ -8,8 +8,8 @@ data class MovieDetailResponse(
     @SerializedName("status_message") val message: String? = null,
     @SerializedName("original_title") val title: String? = null,
     @SerializedName("vote_average") val point: Double? = null,
-    @SerializedName("genres") val genres: MovieGenre? = null,
+    @SerializedName("genres") val genres: List<MovieGenre>? = null,
     @SerializedName("runtime") val time: Int? = null,
-    @SerializedName("spoken_languages") val languages: MovieLanguage? = null,
+    @SerializedName("spoken_languages") val languages: List<MovieLanguage>? = null,
     @SerializedName("overview") val description: String? = null
 )
