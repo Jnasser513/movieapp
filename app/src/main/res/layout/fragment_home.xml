@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageButton
             android:id="@+id/btnMenu"
@@ -84,7 +85,132 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/titleShowing"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            tools:listitem="@layout/item_showing_movie"/>
+
+        <TextView
+            android:id="@+id/titlePopular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_gap"
+            android:fontFamily="@font/merriweather_black"
+            android:gravity="center"
+            android:text="Popular"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/h2"
+            android:layout_marginTop="@dimen/medium_gap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nowShowingRecyclerView" />
+
+        <TextView
+            android:id="@+id/btnPopularMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See more"
+            android:textSize="@dimen/h5"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/hint_color"
+            android:fontFamily="@font/mulish_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titlePopular"
+            app:layout_constraintBottom_toBottomOf="@id/titlePopular"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:background="@drawable/see_more_style"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popularRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPopularMore"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            tools:listitem="@layout/item_showing_movie"/>
+
+        <TextView
+            android:id="@+id/titleTopRated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_gap"
+            android:fontFamily="@font/merriweather_black"
+            android:gravity="center"
+            android:text="Top Rated"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/h2"
+            android:layout_marginTop="@dimen/medium_gap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popularRecyclerView" />
+
+        <TextView
+            android:id="@+id/btnTopMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See more"
+            android:textSize="@dimen/h5"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/hint_color"
+            android:fontFamily="@font/mulish_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleTopRated"
+            app:layout_constraintBottom_toBottomOf="@id/titleTopRated"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:background="@drawable/see_more_style"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/topRatedRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popularRecyclerView"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            tools:listitem="@layout/item_popular_movie"/>
+
+        <TextView
+            android:id="@+id/titleUpcoming"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_gap"
+            android:fontFamily="@font/merriweather_black"
+            android:gravity="center"
+            android:text="Upcoming"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/h2"
+            android:layout_marginTop="@dimen/medium_gap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topRatedRecyclerView" />
+
+        <TextView
+            android:id="@+id/btnUpcomingMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See more"
+            android:textSize="@dimen/h5"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/hint_color"
+            android:fontFamily="@font/mulish_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleUpcoming"
+            app:layout_constraintBottom_toBottomOf="@id/titleUpcoming"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:background="@drawable/see_more_style"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/upcomingRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnUpcomingMore"
             android:layout_marginStart="@dimen/default_gap"
             android:layout_marginTop="@dimen/default_gap"
             tools:listitem="@layout/item_showing_movie"/>
