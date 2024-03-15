@@ -1,6 +1,8 @@
 package com.jnasser.movieapp.di
 
+import com.jnasser.movieapp.data.datasource.RemoteVideoDataSource
 import com.jnasser.movieapp.data.repositories.MoviesRepository
+import com.jnasser.movieapp.data.repositories.VideosRepository
 import com.jnasser.movieapp.framework.requestmanager.APIService
 import dagger.Module
 import dagger.Provides
@@ -18,6 +20,14 @@ object RepositoryModule {
         service: APIService
     ): MoviesRepository {
         return MoviesRepository(service)
+    }
+
+    @Singleton
+    @Provides
+    fun provideVideosRepository(
+        remoteVideoDataSource: RemoteVideoDataSource
+    ): VideosRepository {
+        return VideosRepository(remoteVideoDataSource)
     }
 
 }

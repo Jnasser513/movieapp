@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jnasser.movieapp.databinding.FragmentHomeBinding
+import com.jnasser.movieapp.domain.response.movie.MovieResponse
 import com.jnasser.movieapp.framework.requestmanager.pagingDataSource.NowPlayingMoviesPagingSource
 import com.jnasser.movieapp.presentation.NowPlayingViewModel
 import com.jnasser.movieapp.ui.utils.messageToast
@@ -42,16 +44,25 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getNowPLayingMovies()
+
         initRecyclerViews()
         setUpObservers()
+        setUpListeners()
+    }
 
-        viewModel.getNowPLayingMovies().observe(viewLifecycleOwner) { movies ->
-            nowPlayingAdapter.submitData(this@HomeFragment.lifecycle, movies)
+    private fun setUpListeners() {
+        binding.btnNowMore.setOnClickListener {
+
         }
     }
 
     private fun setUpObservers() {
         observeAdapterState()
+
+        viewModel.getNowPLayingMovies().observe(viewLifecycleOwner) { movies ->
+            nowPlayingAdapter.submitData(this@HomeFragment.lifecycle, movies)
+        }
     }
 
     private fun initRecyclerViews() {

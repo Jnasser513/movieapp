@@ -27,7 +27,7 @@ object NetworkModule {
     }
 
     private fun getToken(): String {
-        return "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYzhmZjA3MDc4ZTY3MGRmYjcwMWYwNGMxNzlmNzU3InN1YiI6IjY1ZjMyNGVlZDY0YWMyMDE4NzYxZTBmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WcT6WOTCft4tozCS-S5S7NbpLbmg_15WCt7zyeFhBGg"
+        return "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYzhmZjA3MDc4ZTY3MGRmYjcwMWYwNGMxNzlmNzU3YiIsInN1YiI6IjY1ZjMyNGVlZDY0YWMyMDE4NzYxZTBmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WcT6WOTCft4tozCS-S5S7NbpLbmg_15WCt7zyeFhBGg"
     }
 
     @Singleton

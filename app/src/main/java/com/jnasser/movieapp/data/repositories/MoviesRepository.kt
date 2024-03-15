@@ -10,7 +10,7 @@ class MoviesRepository(
     private val service: APIService
 ) {
 
-    fun getInventory() =
+    fun getNowPlayingMovies() =
         Pager(
             config = PagingConfig(
                 pageSize = 20,

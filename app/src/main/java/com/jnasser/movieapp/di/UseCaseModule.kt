@@ -1,8 +1,9 @@
 package com.jnasser.movieapp.di
 
 import com.jnasser.movieapp.data.repositories.MoviesRepository
-import com.jnasser.movieapp.framework.requestmanager.APIService
-import com.jnasser.movieapp.intereactors.NowPlayingMoviesUseCase
+import com.jnasser.movieapp.data.repositories.VideosRepository
+import com.jnasser.movieapp.intereactors.GetNowPlayingMoviesUseCase
+import com.jnasser.movieapp.intereactors.GetVideosUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,16 @@ object UseCaseModule {
     @Provides
     fun provideNowPlayingUseCase(
         repository: MoviesRepository
-    ): NowPlayingMoviesUseCase {
-        return NowPlayingMoviesUseCase(repository)
+    ): GetNowPlayingMoviesUseCase {
+        return GetNowPlayingMoviesUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideVideosUseCase(
+        repository: VideosRepository
+    ): GetVideosUseCase {
+        return GetVideosUseCase(repository)
     }
 
 }
